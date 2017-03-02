@@ -3,6 +3,7 @@
 from __future__ import print_function
 from random import randint
 import sys
+import time
 
 class player(object):
   def __init__(self,amount=100,bet=10):
@@ -44,7 +45,7 @@ class deck(object):
     print('Initial value: {}'.format(self.count))
 
 def play():
-  while True:
+  while True and p1.amount > 0:
     ans=raw_input("Do you want to draw or stand ? Enter 'D' to draw and 'S' to stand. Enter N to exit: ")
     if ans == 'D' or ans == 'd':
       dp.draw()
@@ -56,7 +57,8 @@ def play():
         p1.balances(c1)
         dp.reset(dc)
       if dp.count > 21:
-        print('Sorry you lost. Total is grater than 21')
+        print('Sorry you lost. Total is grater than 21\n')
+        time.sleep(1)
         p1.loose()
         c1.win()
         p1.balances(c1)
@@ -64,7 +66,7 @@ def play():
       continue
     elif ans == 'S' or ans == 's':
         while True:
-            print('Computer Continuing')
+            time.sleep(1)
             if deck.compare(dc,dp):
               print('Computer wins. Here are total of both players: ')
               deck.printtotal(dc,dp)
@@ -74,6 +76,7 @@ def play():
               dp.reset(dc)
               break
             else:
+              print('Computer Drawing') 
               dc.draw()
               print("Here is computer's count: {0}".format(dc.count))
               if dc.count > 21:
@@ -91,8 +94,10 @@ def play():
     else:
         print("Wrong value entered. Please enter 'D' to draw and 'S' to stand: ")
         continue
+  else:
+    print('Sorry you are out of money :(')
 
-p1=player()
+p1=player(20)
 c1=player()
 dp=deck()
 dc=deck()
